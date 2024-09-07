@@ -1,6 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, Index } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  Index,
+  OneToMany,
+} from 'typeorm';
 import { CommonEntity } from 'src/common/entity/common.entity';
 import { IsEmail } from 'class-validator';
+import { CartEntity } from 'src/modules/cart/entities/cart.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity extends CommonEntity {
@@ -37,4 +44,7 @@ export class UserEntity extends CommonEntity {
     nullable: false,
   })
   password: string;
+
+  @OneToMany(() => CartEntity, (cart) => cart.user)
+  cart: CartEntity[];
 }
