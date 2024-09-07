@@ -8,8 +8,10 @@ import { ProductModule } from './modules/product/product.module';
 import { BrandModule } from './modules/brand/brand.module';
 import { StockModule } from './modules/stock/stock.module';
 import { CategoryProductModule } from './modules/category-product/category-product.module';
-import { PhotoProductModule } from './modules/photo-product/photo-product.module';
 import { CartModule } from './modules/cart/cart.module';
+import { ProductSoldModule } from './modules/product-sold/product-sold.module';
+import { ProductRatingModule } from './modules/product-rating/product-rating.module';
+import { ProductImageModule } from './modules/product-image/product-image.module';
 
 @Module({
   imports: [
@@ -19,8 +21,10 @@ import { CartModule } from './modules/cart/cart.module';
     BrandModule,
     StockModule,
     CategoryProductModule,
-    PhotoProductModule,
     CartModule,
+    ProductSoldModule,
+    ProductRatingModule,
+    ProductImageModule,
   ],
   controllers: [AppController],
   providers: [AppService],

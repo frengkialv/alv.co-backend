@@ -11,8 +11,10 @@ import { CommonEntity } from 'src/common/entity/common.entity';
 import { BrandEntity } from 'src/modules/brand/entity/brand.entity';
 import { StockEntity } from 'src/modules/stock/entities/stock.entity';
 import { CategoryProductEntity } from 'src/modules/category-product/entities/category-product.entity';
-import { PhotoProductEntity } from 'src/modules/photo-product/entities/photo-product.entity';
 import { CartEntity } from 'src/modules/cart/entities/cart.entity';
+import { ProductSoldEntity } from 'src/modules/product-sold/entities/product-sold.entity';
+import { ProductRatingEntity } from 'src/modules/product-rating/entities/product-rating.entity';
+import { ProductImageEntity } from 'src/modules/product-image/entities/product-image.entity';
 
 @Entity({ name: 'products' })
 export class ProductEntity extends CommonEntity {
@@ -71,7 +73,7 @@ export class ProductEntity extends CommonEntity {
 
   @Column({
     name: 'release_date',
-    type: 'date',
+    type: 'timestamptz',
     nullable: false,
   })
   releaseDate: Date;
@@ -102,11 +104,20 @@ export class ProductEntity extends CommonEntity {
   })
   categoryProduct: CategoryProductEntity;
 
-  @OneToMany(() => PhotoProductEntity, (photoProduct) => photoProduct.product)
-  photoProduct: PhotoProductEntity[];
+  @OneToMany(() => ProductImageEntity, (productImage) => productImage.product)
+  productImage: ProductImageEntity[];
 
   @OneToMany(() => CartEntity, (cart) => cart.product)
   cart: CartEntity[];
+
+  @OneToMany(() => ProductSoldEntity, (productSold) => productSold.product)
+  productSold: ProductSoldEntity[];
+
+  @OneToMany(
+    () => ProductRatingEntity,
+    (productRating) => productRating.product,
+  )
+  productRating: ProductRatingEntity[];
 
   @BeforeInsert()
   updateDates() {
