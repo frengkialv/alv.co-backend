@@ -11,6 +11,7 @@ import { CommonEntity } from 'src/common/entity/common.entity';
 import { BrandEntity } from 'src/modules/brand/entity/brand.entity';
 import { StockEntity } from 'src/modules/stock/entities/stock.entity';
 import { CategoryProductEntity } from 'src/modules/category-product/entities/category-product.entity';
+import { PhotoProductEntity } from 'src/modules/photo-product/entities/photo-product.entity';
 
 @Entity({ name: 'products' })
 export class ProductEntity extends CommonEntity {
@@ -99,6 +100,9 @@ export class ProductEntity extends CommonEntity {
     referencedColumnName: 'id',
   })
   categoryProduct: CategoryProductEntity;
+
+  @OneToMany(() => PhotoProductEntity, (photoProduct) => photoProduct.product)
+  photoProduct: PhotoProductEntity[];
 
   @BeforeInsert()
   updateDates() {
