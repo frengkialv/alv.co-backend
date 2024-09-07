@@ -8,6 +8,7 @@ import { ProductModule } from './modules/product/product.module';
 import { BrandModule } from './modules/brand/brand.module';
 import { StockModule } from './modules/stock/stock.module';
 import { CategoryProductModule } from './modules/category-product/category-product.module';
+import { PhotoProductModule } from './modules/photo-product/photo-product.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CategoryProductModule } from './modules/category-product/category-produ
     BrandModule,
     StockModule,
     CategoryProductModule,
+    PhotoProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],

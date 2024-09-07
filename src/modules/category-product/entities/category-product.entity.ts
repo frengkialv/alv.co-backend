@@ -18,6 +18,7 @@ export class CategoryProductEntity extends CommonEntity {
     name: 'name',
     type: 'enum',
     enum: NameProduct,
+    nullable: false,
   })
   name: NameProduct;
 
