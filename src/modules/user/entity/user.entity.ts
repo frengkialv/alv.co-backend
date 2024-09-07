@@ -8,6 +8,8 @@ import {
 import { CommonEntity } from 'src/common/entity/common.entity';
 import { IsEmail } from 'class-validator';
 import { CartEntity } from 'src/modules/cart/entities/cart.entity';
+import { ProductSoldEntity } from 'src/modules/product-sold/entities/product-sold.entity';
+import { ProductRatingEntity } from 'src/modules/product-rating/entities/product-rating.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity extends CommonEntity {
@@ -47,4 +49,10 @@ export class UserEntity extends CommonEntity {
 
   @OneToMany(() => CartEntity, (cart) => cart.user)
   cart: CartEntity[];
+
+  @OneToMany(() => ProductSoldEntity, (productSold) => productSold.user)
+  productSold: ProductSoldEntity[];
+
+  @OneToMany(() => ProductRatingEntity, (productRating) => productRating.user)
+  productRating: ProductRatingEntity[];
 }

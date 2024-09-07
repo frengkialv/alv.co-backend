@@ -8,8 +8,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity({ name: 'photos-product' })
-export class PhotoProductEntity extends CommonEntity {
+@Entity({ name: 'product-images' })
+export class ProductImageEntity extends CommonEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
