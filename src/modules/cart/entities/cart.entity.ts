@@ -21,7 +21,6 @@ export class CartEntity extends CommonEntity {
     nullable: false,
   })
   quantity: string;
-
   @Column({
     name: 'color',
     type: 'enum',
