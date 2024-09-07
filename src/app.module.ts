@@ -9,6 +9,7 @@ import { BrandModule } from './modules/brand/brand.module';
 import { StockModule } from './modules/stock/stock.module';
 import { CategoryProductModule } from './modules/category-product/category-product.module';
 import { PhotoProductModule } from './modules/photo-product/photo-product.module';
+import { CartModule } from './modules/cart/cart.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { PhotoProductModule } from './modules/photo-product/photo-product.module
     StockModule,
     CategoryProductModule,
     PhotoProductModule,
+    CartModule,
   ],
   controllers: [AppController],
   providers: [AppService],
