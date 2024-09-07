@@ -10,6 +10,7 @@ import {
 import { CommonEntity } from 'src/common/entity/common.entity';
 import { BrandEntity } from 'src/modules/brand/entity/brand.entity';
 import { StockEntity } from 'src/modules/stock/entities/stock.entity';
+import { CategoryProductEntity } from 'src/modules/category-product/entities/category-product.entity';
 
 @Entity({ name: 'products' })
 export class ProductEntity extends CommonEntity {
@@ -88,6 +89,16 @@ export class ProductEntity extends CommonEntity {
 
   @OneToMany(() => StockEntity, (stock) => stock.product)
   stock: StockEntity[];
+
+  @ManyToOne(
+    () => CategoryProductEntity,
+    (categoryProduct) => categoryProduct.id,
+  )
+  @JoinColumn({
+    name: 'category_product_id',
+    referencedColumnName: 'id',
+  })
+  categoryProduct: CategoryProductEntity;
 
   @BeforeInsert()
   updateDates() {
