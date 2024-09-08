@@ -19,7 +19,7 @@ export class BrandService {
     });
 
     if (findBrand.length > 0) {
-      throw new HttpException('Duplicate entry', HttpStatus.CONFLICT);
+      throw new HttpException('Duplicate data', HttpStatus.CONFLICT);
     }
 
     const createBrand = this.brandRepository.create({

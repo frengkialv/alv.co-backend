@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import configuration from 'config/configuration';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -12,9 +14,14 @@ import { CartModule } from './modules/cart/cart.module';
 import { ProductSoldModule } from './modules/product-sold/product-sold.module';
 import { ProductRatingModule } from './modules/product-rating/product-rating.module';
 import { ProductImageModule } from './modules/product-image/product-image.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [configuration],
+    }),
     TypeOrmModule.forRoot({ ...dataSourceOptions, autoLoadEntities: true }),
     UserModule,
     ProductModule,
@@ -25,6 +32,7 @@ import { ProductImageModule } from './modules/product-image/product-image.module
     ProductSoldModule,
     ProductRatingModule,
     ProductImageModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
