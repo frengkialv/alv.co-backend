@@ -1,34 +1,45 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Express } from 'express';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseInterceptors,
+  UploadedFile,
+  ParseFilePipe,
+  FileTypeValidator,
+} from '@nestjs/common';
 import { ProductImageService } from './product-image.service';
-import { CreateProductImageDto } from './dto/create-product-image.dto';
-import { UpdateProductImageDto } from './dto/update-product-image.dto';
+import { CreateProductImageDtoIn } from './dto/product-image.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { BaseDto } from 'src/common/dto/base.dto';
 
 @Controller('product-image')
 export class ProductImageController {
   constructor(private readonly productImageService: ProductImageService) {}
 
-  @Post()
-  create(@Body() createProductImageDto: CreateProductImageDto) {
-    return this.productImageService.create(createProductImageDto);
-  }
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('imgSrc'))
+  async createProductImage(
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' })],
+      }),
+    )
+    imgSrc: Express.Multer.File,
+    @Body() payload: CreateProductImageDtoIn,
+  ) {
+    const base64String = imgSrc.buffer.toString('base64');
 
-  @Get()
-  findAll() {
-    return this.productImageService.findAll();
-  }
+    const createProductImage =
+      await this.productImageService.createProductImage(
+        base64String,
+        payload.productId,
+      );
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productImageService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductImageDto: UpdateProductImageDto) {
-    return this.productImageService.update(+id, updateProductImageDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productImageService.remove(+id);
+    return new BaseDto('Success create new product photo', createProductImage);
   }
 }
