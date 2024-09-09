@@ -24,6 +24,13 @@ export class ProductRatingEntity extends CommonEntity {
   rating: number | null;
 
   @Column({
+    name: 'description-rating',
+    type: 'varchar',
+    nullable: true,
+  })
+  descriptionRating: string;
+
+  @Column({
     name: 'product-id',
     type: 'uuid',
     nullable: false,

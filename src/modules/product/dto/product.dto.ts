@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsUUID } from 'class-validator';
 
 export class ProductDtoIn {
   @IsNotEmpty()
@@ -20,7 +20,7 @@ export class ProductDtoIn {
   @IsString()
   material: string;
 
-  @IsString()
+  @IsUUID()
   categoryProductId: string;
 
   @IsNotEmpty()
