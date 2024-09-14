@@ -30,4 +30,10 @@ export class BrandService {
 
     return createBrand;
   }
+
+  async getAllBrand() {
+    const brands = await this.brandRepository.find();
+
+    return brands;
+  }
 }

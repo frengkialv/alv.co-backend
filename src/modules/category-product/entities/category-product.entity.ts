@@ -1,11 +1,17 @@
 import { CommonEntity } from 'src/common/entity/common.entity';
 import { ProductEntity } from 'src/modules/product/entity/product.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
-export enum NameProduct {
-  'T_SHIRT' = 't-shirt',
+export enum CategoryProduct {
+  'T_SHIRTS' = 't-shirts',
   SHOES = 'shoes',
-  ACCESSORIED = 'accessories',
+  ACCESSORIES = 'accessories',
   SPORT = 'sport',
 }
 
@@ -17,10 +23,11 @@ export class CategoryProductEntity extends CommonEntity {
   @Column({
     name: 'name',
     type: 'enum',
-    enum: NameProduct,
+    enum: CategoryProduct,
     nullable: false,
   })
-  name: NameProduct;
+  @Index('idx_category_product_unique_name', { unique: true })
+  name: CategoryProduct;
 
   @OneToMany(() => ProductEntity, (product) => product.id)
   product: ProductEntity[];

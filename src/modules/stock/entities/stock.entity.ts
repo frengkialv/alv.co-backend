@@ -17,6 +17,9 @@ export enum Color {
   RED = 'red',
   YELLOW = 'yellow',
   GRAY = 'gray',
+  PURPLE = 'purple',
+  PINK = 'pink',
+  'LIGHT-BLUE' = 'lightBlue',
 }
 
 export enum Size {

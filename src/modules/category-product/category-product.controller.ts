@@ -1,34 +1,43 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  HttpCode,
+  UseGuards,
+  UseFilters,
+} from '@nestjs/common';
 import { CategoryProductService } from './category-product.service';
-import { CreateCategoryProductDto } from './dto/create-category-product.dto';
-import { UpdateCategoryProductDto } from './dto/update-category-product.dto';
+import { CreateCategoryProductDtoIn } from './dto/category-product.dto';
+import { AuthGuard } from '../auth/auth.guard';
+import { BaseDto } from 'src/common/dto/base.dto';
+import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
 
 @Controller('category-product')
+@UseFilters(new HttpExceptionFilter())
 export class CategoryProductController {
-  constructor(private readonly categoryProductService: CategoryProductService) {}
+  constructor(
+    private readonly categoryProductService: CategoryProductService,
+  ) {}
 
   @Post()
-  create(@Body() createCategoryProductDto: CreateCategoryProductDto) {
-    return this.categoryProductService.create(createCategoryProductDto);
+  @UseGuards(AuthGuard)
+  @HttpCode(201)
+  async create(@Body() createCategoryProductDtoIn: CreateCategoryProductDtoIn) {
+    const createCategory = await this.categoryProductService.create(
+      createCategoryProductDtoIn,
+    );
+    return new BaseDto('Successfully create new Category', createCategory);
   }
 
   @Get()
-  findAll() {
-    return this.categoryProductService.findAll();
-  }
+  @HttpCode(200)
+  async findAll() {
+    const categoriesProduct = await this.categoryProductService.findAll();
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoryProductService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCategoryProductDto: UpdateCategoryProductDto) {
-    return this.categoryProductService.update(+id, updateCategoryProductDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.categoryProductService.remove(+id);
+    return new BaseDto(
+      'Successfully get all Category Product',
+      categoriesProduct,
+    );
   }
 }

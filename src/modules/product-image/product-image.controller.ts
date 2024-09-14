@@ -1,12 +1,8 @@
 import { Express } from 'express';
 import {
   Controller,
-  Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
   UseInterceptors,
   UploadedFile,
   ParseFilePipe,
@@ -38,6 +34,7 @@ export class ProductImageController {
       await this.productImageService.createProductImage(
         base64String,
         payload.productId,
+        Number(payload.imageIndex),
       );
 
     return new BaseDto('Success create new product photo', createProductImage);

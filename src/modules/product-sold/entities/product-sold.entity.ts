@@ -1,5 +1,4 @@
 import { CommonEntity } from 'src/common/entity/common.entity';
-import { ProductRatingEntity } from 'src/modules/product-rating/entities/product-rating.entity';
 import { ProductEntity } from 'src/modules/product/entity/product.entity';
 import { UserEntity } from 'src/modules/user/entity/user.entity';
 import {
@@ -16,6 +15,20 @@ import {
 export class ProductSoldEntity extends CommonEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Column({
+    name: 'rating',
+    type: 'integer',
+    nullable: true,
+  })
+  rating: number | null;
+
+  @Column({
+    name: 'description-rating',
+    type: 'varchar',
+    nullable: true,
+  })
+  descriptionRating: string;
 
   @Column({
     name: 'date',
@@ -38,13 +51,6 @@ export class ProductSoldEntity extends CommonEntity {
   })
   userId: string;
 
-  @Column({
-    name: 'rating-id',
-    type: 'uuid',
-    nullable: false,
-  })
-  ratingId: string;
-
   @ManyToOne(() => ProductEntity, (product) => product.id)
   @JoinColumn({
     name: 'product-id',
@@ -58,16 +64,6 @@ export class ProductSoldEntity extends CommonEntity {
     referencedColumnName: 'id',
   })
   user: UserEntity;
-
-  @OneToOne(
-    () => ProductRatingEntity,
-    (productRating) => productRating.productSold,
-  )
-  @JoinColumn({
-    name: 'rating-id',
-    referencedColumnName: 'id',
-  })
-  productRating: ProductRatingEntity;
 
   @BeforeInsert()
   updateDate() {

@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entity/user.entity';
 import { Repository } from 'typeorm';
@@ -66,6 +71,28 @@ export class UserService {
       where: [{ email: payload.email }, { username: payload.username }],
     });
 
+    if (!findUser) {
+      throw new HttpException(
+        'Incorrect username or password.',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
     return findUser;
+  }
+
+  async findUser(userId: string) {
+    const users = await this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+      select: ['id', 'username', 'email', 'name'],
+    });
+
+    if (!users) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return users;
   }
 }

@@ -24,24 +24,4 @@ export class StockController {
   async create(@Body() createStockDto: CreateStockDto) {
     return await this.stockService.create(createStockDto);
   }
-
-  @Get()
-  findAll() {
-    return this.stockService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.stockService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStockDto: UpdateStockDto) {
-    return this.stockService.update(+id, updateStockDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.stockService.remove(+id);
-  }
 }
