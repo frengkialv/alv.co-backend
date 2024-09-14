@@ -13,7 +13,6 @@ import { StockEntity } from 'src/modules/stock/entities/stock.entity';
 import { CategoryProductEntity } from 'src/modules/category-product/entities/category-product.entity';
 import { CartEntity } from 'src/modules/cart/entities/cart.entity';
 import { ProductSoldEntity } from 'src/modules/product-sold/entities/product-sold.entity';
-import { ProductRatingEntity } from 'src/modules/product-rating/entities/product-rating.entity';
 import { ProductImageEntity } from 'src/modules/product-image/entities/product-image.entity';
 
 @Entity({ name: 'products' })
@@ -112,12 +111,6 @@ export class ProductEntity extends CommonEntity {
 
   @OneToMany(() => ProductSoldEntity, (productSold) => productSold.product)
   productSold: ProductSoldEntity[];
-
-  @OneToMany(
-    () => ProductRatingEntity,
-    (productRating) => productRating.product,
-  )
-  productRating: ProductRatingEntity[];
 
   @BeforeInsert()
   updateDates() {

@@ -1,0 +1,84 @@
+{
+  "data": [
+    {
+      "name": "TOMMY HILFIGER",
+      "title": "FADE HILFIGER T-SHIRT",
+      "description": "Graphic t-shirt with faded color shadow logo printed. The flag logo is featured on the left cuff. The fitted, regular silhouette makes it easy to pair with any bottom, so you can get creative",
+      "price": 45,
+      "discountByPercent": null,
+      "material": "100% Cotton"
+    },
+    {
+      "name": "TOMMY HILFIGER",
+      "title": "MONOTYPE ARCHIVE TEE",
+      "description": "Get an effortless look for your day off in this organic cotton tee. Cut in an archival cut, Tommy’s monotype embroidery is front and center for a finishing touch.",
+      "price": 65,
+      "discountByPercent": 5,
+      "material": "100% Regenerative Cotton"
+    },
+    {
+      "name": "TOMMY HILFIGER",
+      "title": "MONOTYPE WOVEN LABEL",
+      "description": "Keep your weekend look clean and simple with this cotton tee, featuring a handy chest pocket with a Tommy Jeans badge as a finishing touch.",
+      "price": 55,
+      "discountByPercent": null,
+      "material": "100% Cotton"
+    },
+    {
+      "name": "SUPERDRY",
+      "title": "LUXURY SPORT LOOSE TEE",
+      "description": "Solid tone t-shirt with embroidered logo",
+      "price": 29,
+      "discountByPercent": null,
+      "material": "100% Cotton"
+    },
+    {
+      "name": "SUPERDRY",
+      "title": "VINTAGE VL TEE",
+      "description": "Contrast graphic logo printed tee",
+      "price": 46,
+      "discountByPercent": 15,
+      "material": "100% Cotton"
+    },
+    {
+      "name": "SUPERDRY",
+      "title": "OVERDYED LOGO LOOSE TEE",
+      "description": "Overdyed wash tone t-shirt with chest logo",
+      "price": 55,
+      "discountByPercent": 35,
+      "material": "100% Cotton"
+    },
+    {
+      "name": "SUPERDRY",
+      "title": "GREAT OUTDOORS GRAPHIC TEE",
+      "description": "Casual brand graphics printed tee",
+      "price": 45,
+      "discountByPercent": 15,
+      "material": "100% Cotton"
+    },
+    {
+      "name": "LEVI'S",
+      "title": "MEN'S VINTAGE FIT GRAPHIC T-SHIRT",
+      "description": "We found this Levi's® garment in a vintage shop and loved it so much that we decided to revive it for the 21st century. With supersoft 100% cotton jersey and a relaxed fit, this Graphic Vintage Fit T-Shirt is the essential tee at its very finest.",
+      "price": 60,
+      "discountByPercent": 25,
+      "material": "100% Cotton"
+    },
+    {
+      "name": "LEVI'S",
+      "title": "RELAXED SHORT-SLEEVE GRAPHIC T-SHIRT",
+      "description": "Jeans and a tee—name a more iconic duo, we’ll wait. Made with a easy fit, this Relaxed Short-Sleeve Graphic T-Shirt features signature graphics for an unmistakably Levi's® touch.",
+      "price": 55,
+      "discountByPercent": 5,
+      "material": "100% Cotton"
+    },
+    {
+      "name": "LEVI'S",
+      "title": "MEN'S VINTAGE BATWING GRAPHIC T-SHIRT",
+      "description": "Our tees and denim were made for each other. This Vintage Batwing Graphic T-Shirt bears our vintage batwing logo, which mirrors the curved and pointed arcuate design stitched on our jeans' back pockets.",
+      "price": 40,
+      "discountByPercent": null,
+      "material": "100% Cotton"
+    }
+  ]
+}

@@ -5,39 +5,52 @@ import {
   HttpCode,
   Param,
   Post,
+  Query,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { ProductDtoIn } from './dto/product.dto';
+import { CreateProductDtoIn } from './dto/product.dto';
 import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
+import { AuthGuard } from '../auth/auth.guard';
+import {
+  BasePaginationDto,
+  PaginationDtoIn,
+} from 'src/common/dto/basePagination.dto';
+import { BaseDto } from 'src/common/dto/base.dto';
 
 @Controller('product')
 @UseFilters(new HttpExceptionFilter())
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
-  @Get('/stock')
+  @Get()
   @HttpCode(200)
-  async findByStock() {
-    const findProductByParamId = await this.productService.findProductByStock();
+  async findProduct(@Query() query: PaginationDtoIn) {
+    const { datas, currentPage, totalPages } =
+      await this.productService.findProduct(query);
 
-    return findProductByParamId;
+    return new BasePaginationDto(
+      'Successfully get all pagination product ',
+      datas,
+      { totalPages, currentPage },
+    );
   }
 
-  @Get('/:brandId')
+  @Get('/detail/:id')
   @HttpCode(200)
-  async findByBrandId(@Param('brandId') brandId: string) {
-    const findProductByParamId =
-      await this.productService.findProductByParamId(brandId);
+  async findProductById(@Param('id') id: string) {
+    const products = await this.productService.getOneById(id);
 
-    return findProductByParamId;
+    return new BaseDto('Successfully get product by Id', products);
   }
 
   @Post()
+  @UseGuards(AuthGuard)
   @HttpCode(201)
-  async create(@Body() payload: ProductDtoIn) {
+  async create(@Body() payload: CreateProductDtoIn) {
     const createProduct = await this.productService.create(payload);
 
-    return createProduct;
+    return new BaseDto('Successfully create new product', createProduct);
   }
 }

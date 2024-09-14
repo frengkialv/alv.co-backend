@@ -12,7 +12,6 @@ import { StockModule } from './modules/stock/stock.module';
 import { CategoryProductModule } from './modules/category-product/category-product.module';
 import { CartModule } from './modules/cart/cart.module';
 import { ProductSoldModule } from './modules/product-sold/product-sold.module';
-import { ProductRatingModule } from './modules/product-rating/product-rating.module';
 import { ProductImageModule } from './modules/product-image/product-image.module';
 import { AuthModule } from './modules/auth/auth.module';
 
@@ -30,7 +29,6 @@ import { AuthModule } from './modules/auth/auth.module';
     CategoryProductModule,
     CartModule,
     ProductSoldModule,
-    ProductRatingModule,
     ProductImageModule,
     AuthModule,
   ],

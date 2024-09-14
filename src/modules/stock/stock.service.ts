@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { CreateStockDto } from './dto/create-stock.dto';
 import { UpdateStockDto } from './dto/update-stock.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,6 +18,19 @@ export class StockService {
   ) {}
 
   async create(createStockDto: CreateStockDto) {
+    const findDuplicateData = await this.stockRepository
+      .createQueryBuilder('stock')
+      .where('stock.productId = :productId', {
+        productId: createStockDto.productId,
+      })
+      .andWhere('stock.color = :color', { color: createStockDto.color })
+      .andWhere('stock.size = :size', { size: createStockDto.size })
+      .getOne();
+
+    if (findDuplicateData) {
+      throw new HttpException('Duplicate data', HttpStatus.CONFLICT);
+    }
+
     const createStock = this.stockRepository.create({
       ...createStockDto,
     });
@@ -20,21 +38,5 @@ export class StockService {
     await this.stockRepository.save(createStock);
 
     return createStock;
-  }
-
-  findAll() {
-    return `This action returns all stock`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} stock`;
-  }
-
-  update(id: number, updateStockDto: UpdateStockDto) {
-    return `This action updates a #${id} stock`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} stock`;
   }
 }

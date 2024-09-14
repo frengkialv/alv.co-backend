@@ -1,6 +1,7 @@
 import { IsNotEmpty, IsNumber, IsString, IsUUID } from 'class-validator';
+import { PaginationDtoIn } from 'src/common/dto/basePagination.dto';
 
-export class ProductDtoIn {
+export class CreateProductDtoIn {
   @IsNotEmpty()
   @IsString()
   name: string;
@@ -13,12 +14,13 @@ export class ProductDtoIn {
   @IsNumber()
   price: number;
 
-  @IsNumber()
   discountByPercent: number | null;
 
   @IsNotEmpty()
   @IsString()
   material: string;
+
+  sold?: number;
 
   @IsUUID()
   categoryProductId: string;
@@ -29,4 +31,10 @@ export class ProductDtoIn {
 
   @IsNotEmpty()
   releaseDate: Date;
+}
+
+export class GetProductPaginationByCategory extends PaginationDtoIn {
+  @IsNotEmpty()
+  @IsUUID()
+  categoryId: number;
 }

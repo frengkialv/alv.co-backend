@@ -16,10 +16,16 @@ export class ProductImageEntity extends CommonEntity {
   @Column({
     name: 'imgSrc',
     type: 'varchar',
-
     nullable: false,
   })
   imgSrc: string;
+
+  @Column({
+    name: 'image-index',
+    type: 'integer',
+    nullable: false,
+  })
+  imageIndex: number;
 
   @Column({
     name: 'product_id',
