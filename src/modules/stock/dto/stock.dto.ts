@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsUUID } from 'class-validator';
 import { Color, Size } from '../entities/stock.entity';
 
 export class CreateStockDto {
@@ -15,4 +15,16 @@ export class CreateStockDto {
   @IsNotEmpty()
   @IsString()
   productId: string;
+}
+
+export class GetStockDtoIn {
+  @IsNotEmpty()
+  @IsUUID()
+  productId: string;
+
+  @IsNotEmpty()
+  color: Color;
+
+  @IsNotEmpty()
+  size: Size;
 }

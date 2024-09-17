@@ -37,12 +37,12 @@ export class ProductController {
     );
   }
 
-  @Get('/detail/:id')
+  @Get('/detail/name/:name')
   @HttpCode(200)
-  async findProductById(@Param('id') id: string) {
-    const products = await this.productService.getOneById(id);
+  async findProductByName(@Param('name') name: string) {
+    const products = await this.productService.getOneByName(name);
 
-    return new BaseDto('Successfully get product by Id', products);
+    return new BaseDto('Successfully get product by name', products);
   }
 
   @Post()

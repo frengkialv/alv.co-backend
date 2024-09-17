@@ -4,6 +4,11 @@ import { LoginUserDtoIn } from '../user/dto/user.dto';
 import { PasswordHash } from '../security/password-hash';
 import { JwtService } from '@nestjs/jwt';
 
+export type RequestPayload = {
+  id: string;
+  username: string;
+};
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -26,7 +31,10 @@ export class AuthService {
       );
     }
 
-    const userPayload = { id: user.id, username: user.username };
+    const userPayload: RequestPayload = {
+      id: user.id,
+      username: user.username,
+    };
 
     return {
       access_token: await this.jwtService.signAsync(userPayload),
