@@ -148,18 +148,16 @@ export class ProductService {
     return { datas, ...metadata };
   }
 
-  async getOneById(id: string) {
-    const products = await this.productRepository.findOne({
-      where: {
-        id,
-      },
-      relations: {
-        brand: true,
-        productImage: true,
-        stock: true,
-        productSold: true,
-      },
-    });
+  async getOneByName(name: string) {
+    const products = await this.productRepository
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.stock', 'stock')
+      .leftJoinAndSelect('product.brand', 'brand')
+      .leftJoinAndSelect('product.productImage', 'productImage')
+      .leftJoinAndSelect('product.productSold', 'productSold')
+      .where('product.name = :productName', { productName: name })
+      .andWhere('stock.stock > :minStock', { minStock: 0 })
+      .getOne();
 
     return products;
   }

@@ -1,11 +1,5 @@
-import {
-  HttpCode,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
-import { CreateStockDto } from './dto/create-stock.dto';
-import { UpdateStockDto } from './dto/update-stock.dto';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { CreateStockDto, GetStockDtoIn } from './dto/stock.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StockEntity } from './entities/stock.entity';
 import { Repository } from 'typeorm';
@@ -38,5 +32,15 @@ export class StockService {
     await this.stockRepository.save(createStock);
 
     return createStock;
+  }
+
+  async getQuantityStock(query: GetStockDtoIn) {
+    const stock = await this.stockRepository.findOne({
+      where: {
+        ...query,
+      },
+    });
+
+    return stock;
   }
 }

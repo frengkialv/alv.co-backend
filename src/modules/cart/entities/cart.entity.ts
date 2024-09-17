@@ -17,10 +17,10 @@ export class CartEntity extends CommonEntity {
 
   @Column({
     name: 'quantity',
-    type: 'varchar',
+    type: 'integer',
     nullable: false,
   })
-  quantity: string;
+  quantity: number;
 
   @Column({
     name: 'color',

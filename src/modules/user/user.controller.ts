@@ -13,7 +13,7 @@ import { UserService } from './user.service';
 import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
 import { CreateUserDtoIn } from './dto/user.dto';
 import { BaseDto } from 'src/common/dto/base.dto';
-import { AuthGuard } from '../auth/auth.guard';
+import { AuthGuard, IAuthRequest } from '../auth/auth.guard';
 
 @Controller('user')
 @UseFilters(new HttpExceptionFilter())
@@ -23,7 +23,7 @@ export class UserController {
   @Get('find')
   @HttpCode(200)
   @UseGuards(AuthGuard)
-  async findUser(@Req() request: any) {
+  async findUser(@Req() request: IAuthRequest) {
     const users = await this.userService.findUser(request.user.id);
 
     return new BaseDto('Success find user', users);
