@@ -1,5 +1,4 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateProductImageDtoIn } from './dto/product-image.dto';
 import { Repository } from 'typeorm';
 import { ProductImageEntity } from './entities/product-image.entity';
 import { InjectRepository } from '@nestjs/typeorm';

@@ -24,8 +24,8 @@ export class UserService {
   ) {}
 
   async createUser(payload: CreateUserDtoIn) {
-    const MINIMUM_USERNAME_LENGTH = 5;
-    const MINIMUM_PASSWOED_LENGTH = 5;
+    const MINIMUM_USERNAME_LENGTH = 6;
+    const MINIMUM_PASSWOED_LENGTH = 8;
 
     if (payload.username.length < 5) {
       throw new HttpException(

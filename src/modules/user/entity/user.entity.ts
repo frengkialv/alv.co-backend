@@ -31,6 +31,13 @@ export class UserEntity extends CommonEntity {
   name: string;
 
   @Column({
+    name: 'address',
+    type: 'varchar',
+    nullable: true,
+  })
+  address: string;
+
+  @Column({
     name: 'email',
     type: 'varchar',
     unique: true,
