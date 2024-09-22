@@ -9,7 +9,7 @@ export const dataSourceOptions: DataSourceOptions = {
   database: 'alv.co',
   entities: ['dist/src/modules/**/*.entity.js'], // Path to entity
   migrations: ['dist/db/migrations/*.js'], // Path to migration
-  synchronize: true,
+  synchronize: false,
 };
 
 const dataSource = new DataSource(dataSourceOptions);

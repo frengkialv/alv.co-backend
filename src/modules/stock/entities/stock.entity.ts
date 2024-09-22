@@ -27,6 +27,12 @@ export enum Size {
   MEDIUM = 'medium',
   LARGE = 'large',
   'X-LARGE' = 'x-large',
+  'FOURTY' = '40',
+  'FOURTY_ONE' = '41',
+  'FOURTY_TWO' = '42',
+  'FOURTY_THREE' = '43',
+  'FOURTY_FOUR' = '44',
+  'ONE_SIZE' = 'one size',
 }
 
 @Entity({ name: 'stocks' })

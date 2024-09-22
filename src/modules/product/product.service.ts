@@ -91,10 +91,16 @@ export class ProductService {
       // Mengambil nilai sesudah '-' (bagian kedua)
       let maxPrice = parts[1];
 
-      queeryBuilder.andWhere('product.price BETWEEN :minPrice AND :maxPrice', {
-        minPrice: minPrice,
-        maxPrice: maxPrice,
-      });
+      queeryBuilder.andWhere(
+        `
+        (CASE 
+           WHEN product.discountByPercent IS NULL 
+           THEN product.price 
+           ELSE product.price - (product.price * product.discountByPercent / 100)
+         END) BETWEEN :minPrice AND :maxPrice
+      `,
+        { minPrice: minPrice, maxPrice: maxPrice },
+      );
     }
 
     // Sort query
@@ -108,7 +114,7 @@ export class ProductService {
 
     const [products, totalData] = await queeryBuilder
       .take(limit)
-      .limit(offset)
+      .skip(offset)
       .getManyAndCount();
 
     let datas = [...products];
