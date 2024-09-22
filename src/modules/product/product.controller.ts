@@ -41,6 +41,10 @@ export class ProductController {
   @HttpCode(200)
   async findProductByName(@Param('name') name: string) {
     const products = await this.productService.getOneByName(name);
+    console.log(
+      '🚀 ~ ProductController ~ findProductByName ~ products:',
+      products,
+    );
 
     return new BaseDto('Successfully get product by name', products);
   }
