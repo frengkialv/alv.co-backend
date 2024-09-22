@@ -1,38 +1,43 @@
-###################
-# BUILD FOR PRODUCTION
-###################
+# Reproduced from https://www.tomray.dev/nestjs-docker-production
+# Base image
+FROM node:lts-alpine3.15 as build
 
-FROM node:18-alpine As build
-
+# Create app directory
 WORKDIR /usr/src/app
 
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY --chown=node:node package*.json ./
 
-# In order to run `npm run build` we need access to the Nest CLI which is a dev dependency. In the previous development stage we ran `npm ci` which installed all dependencies, so we can copy over the node_modules directory from the development image
-COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
+# Install app dependencies
+RUN npm ci
 
+# Bundle app source
 COPY --chown=node:node . .
 
-# Run the build command which creates the production bundle
+
+# Creates a "dist" folder with the production build
 RUN npm run build
 
-# Set NODE_ENV environment variable
+# set environment to production
 ENV NODE_ENV production
 
-# Running `npm ci` removes the existing node_modules directory and passing in --only=production ensures that only the production dependencies are installed. This ensures that the node_modules directory is as optimized as possible
-RUN npm ci --only=production && npm cache clean --force
-
+# set user to node
 USER node
 
-###################
-# PRODUCTION
-###################
 
-FROM node:18-alpine As production
+FROM node:lts-alpine3.15 as production
+
+# Create app directory
+WORKDIR /usr/src/app
 
 # Copy the bundled code from the build stage to the production image
+COPY --chown=node:node --from=build /usr/src/app/package.json ./package.json
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
 
+
+# set user to node
+USER node
+
 # Start the server using the production build
-CMD [ "node", "dist/main.js" ]
+CMD [ "node", "dist/main" ]
