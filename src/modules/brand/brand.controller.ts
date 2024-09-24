@@ -22,7 +22,7 @@ export class BrandController {
   @UseGuards(AuthGuard)
   @HttpCode(201)
   async createBrand(@Body() payload: BrandDtoIn) {
-    const createBrand = await this.brandService.create(payload);
+    const createBrand = await this.brandService.create(payload.name);
 
     return new BaseDto('Successfully create new Brand', createBrand);
   }

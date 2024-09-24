@@ -2,7 +2,6 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BrandEntity } from './entity/brand.entity';
 import { Repository } from 'typeorm';
-import { BrandDtoIn } from './dto/brand.dto';
 
 @Injectable()
 export class BrandService {
@@ -11,10 +10,10 @@ export class BrandService {
     private brandRepository: Repository<BrandEntity>,
   ) {}
 
-  async create(dtoIn: BrandDtoIn) {
+  async create(name: string) {
     const findBrand = await this.brandRepository.find({
       where: {
-        ...dtoIn,
+        name: name.toLowerCase(),
       },
     });
 
@@ -23,7 +22,7 @@ export class BrandService {
     }
 
     const createBrand = this.brandRepository.create({
-      ...dtoIn,
+      name: name.toLowerCase(),
     });
 
     await this.brandRepository.save(createBrand);
