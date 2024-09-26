@@ -49,6 +49,16 @@ export class CartService {
       );
     }
 
+    if (
+      findDuplicateCart &&
+      quantityItemLeft < createCartDto.quantity + findDuplicateCart.quantity
+    ) {
+      throw new HttpException(
+        `This item only has ${quantityItemLeft} stocks left`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     if (findDuplicateCart) {
       await this.cartRepository.update(findDuplicateCart.id, {
         quantity: createCartDto.quantity + findDuplicateCart.quantity,
