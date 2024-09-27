@@ -27,7 +27,7 @@ export class UserService {
     const MINIMUM_USERNAME_LENGTH = 6;
     const MINIMUM_PASSWOED_LENGTH = 8;
 
-    if (payload.username.length < 5) {
+    if (payload.username.length < 6) {
       throw new HttpException(
         `Minimum username length should be ${MINIMUM_USERNAME_LENGTH} character`,
         HttpStatus.UNPROCESSABLE_ENTITY,
