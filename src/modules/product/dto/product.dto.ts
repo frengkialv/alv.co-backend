@@ -1,6 +1,11 @@
 import { IsNotEmpty, IsNumber, IsString, IsUUID } from 'class-validator';
 import { PaginationDtoIn } from 'src/common/dto/basePagination.dto';
 
+export enum CategoryForDisplay {
+  'ON-SALE' = 'on-sale',
+  'NEW-ARRIVAL' = 'new-arrival',
+}
+
 export class CreateProductDtoIn {
   @IsNotEmpty()
   @IsString()

@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { CreateProductDtoIn } from './dto/product.dto';
+import { CategoryForDisplay, CreateProductDtoIn } from './dto/product.dto';
 import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
 import { AuthGuard } from '../auth/auth.guard';
 import {
@@ -41,12 +41,22 @@ export class ProductController {
   @HttpCode(200)
   async findProductByName(@Param('name') name: string) {
     const products = await this.productService.getOneByName(name);
-    console.log(
-      '🚀 ~ ProductController ~ findProductByName ~ products:',
-      products,
-    );
 
     return new BaseDto('Successfully get product by name', products);
+  }
+
+  @Get('/display/:category/:totalData')
+  @HttpCode(200)
+  async findProductForDisplay(
+    @Param('category') category: CategoryForDisplay,
+    @Param('totalData') totalData: string,
+  ) {
+    const products = await this.productService.getProductForDisplay(
+      category,
+      Number(totalData),
+    );
+
+    return new BaseDto('Successfully get product for display', products);
   }
 
   @Post()
