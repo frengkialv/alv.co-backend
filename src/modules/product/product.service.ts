@@ -1,13 +1,8 @@
-import {
-  HttpCode,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from './entity/product.entity';
-import { Between, In, QueryBuilder, Repository } from 'typeorm';
-import { CreateProductDtoIn } from './dto/product.dto';
+import { Repository } from 'typeorm';
+import { CategoryForDisplay, CreateProductDtoIn } from './dto/product.dto';
 import { PaginationDtoIn, Sort } from 'src/common/dto/basePagination.dto';
 import { PaginationService } from 'src/common/services/pagination.service';
 
@@ -152,6 +147,31 @@ export class ProductService {
     });
 
     return { datas, ...metadata };
+  }
+
+  async getProductForDisplay(category: CategoryForDisplay, totalData: number) {
+    const queryBuilders = this.productRepository
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.stock', 'stock')
+      .leftJoinAndSelect('product.brand', 'brand')
+      .leftJoinAndSelect('product.categoryProduct', 'categoryProduct')
+      .leftJoinAndSelect('product.productImage', 'productImage')
+      .andWhere('productImage.imageIndex = :imgIndex', {
+        imgIndex: 1,
+      });
+
+    if (category === CategoryForDisplay['NEW-ARRIVAL']) {
+      queryBuilders.orderBy('product.releaseDate', 'DESC');
+    } else if (category === CategoryForDisplay['ON-SALE']) {
+      queryBuilders.andWhere('product.discountByPercent IS NOT NULL');
+      queryBuilders.orderBy('product.discountByPercent', 'DESC');
+    } else {
+      throw new HttpException('Wrong category', HttpStatus.NOT_FOUND);
+    }
+
+    const products = await queryBuilders.take(totalData).getMany();
+
+    return products;
   }
 
   async getOneByName(name: string) {
