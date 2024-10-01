@@ -34,11 +34,19 @@ export class ProductService {
     }
 
     // If get by category
-    if (
-      query.category &&
-      query.category !== 'on-sale' &&
-      query.category !== 'new-arrivals'
-    ) {
+    if (query.category && query.category === 'on-sale') {
+      queeryBuilder.andWhere('product.discountByPercent IS NOT NULL');
+    } else if (query.category && query.category === 'new-arrivals') {
+      // Get Current TIme
+      const threeMonthsAgo = new Date();
+
+      // Current Time Minus 3 Months
+      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+
+      queeryBuilder.where('product.releaseDate >= :threeMonthsAgo', {
+        threeMonthsAgo,
+      });
+    } else if (query.category) {
       queeryBuilder.andWhere('categoryProduct.name = :categoryName', {
         categoryName: query.category,
       });
