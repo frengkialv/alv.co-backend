@@ -19,7 +19,7 @@ export class ProductService {
       query.size,
     );
 
-    const queeryBuilder = this.productRepository
+    const queryBuilder = this.productRepository
       .createQueryBuilder('product')
       .leftJoinAndSelect('product.stock', 'stock')
       .leftJoinAndSelect('product.brand', 'brand')
@@ -28,14 +28,14 @@ export class ProductService {
 
     // If get by brand
     if (query.brand) {
-      queeryBuilder.andWhere('product.brandId = :brandId', {
+      queryBuilder.andWhere('product.brandId = :brandId', {
         brandId: query.brand,
       });
     }
 
     // If get by category
     if (query.category && query.category === 'on-sale') {
-      queeryBuilder.andWhere('product.discountByPercent IS NOT NULL');
+      queryBuilder.andWhere('product.discountByPercent IS NOT NULL');
     } else if (query.category && query.category === 'new-arrivals') {
       // Get Current TIme
       const threeMonthsAgo = new Date();
@@ -43,47 +43,48 @@ export class ProductService {
       // Current Time Minus 3 Months
       threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
 
-      queeryBuilder.where('product.releaseDate >= :threeMonthsAgo', {
+      queryBuilder.where('product.releaseDate >= :threeMonthsAgo', {
         threeMonthsAgo,
       });
     } else if (query.category) {
-      queeryBuilder.andWhere('categoryProduct.name = :categoryName', {
+      queryBuilder.andWhere('categoryProduct.name = :categoryName', {
         categoryName: query.category,
       });
     }
 
     // Take the picture only with imgIndex = 1
-    queeryBuilder.andWhere('productImage.imageIndex = :imgIndex', {
+    queryBuilder.andWhere('productImage.imageIndex = :imgIndex', {
       imgIndex: 1,
     });
 
     // If more than 1 query color
     if (query.color && Array.isArray(query.color)) {
-      queeryBuilder.andWhere('stock.color IN (:...colors)', {
+      queryBuilder.andWhere('stock.color IN (:...colors)', {
         colors: [...query.color],
       });
     }
 
     // If just one query color
     if (query.color && typeof query.color === 'string') {
-      queeryBuilder.andWhere('stock.color = :color', { color: query.color });
+      queryBuilder.andWhere('stock.color = :color', { color: query.color });
     }
 
     // If more than 1 query size
     if (query.productSize && Array.isArray(query.productSize)) {
-      queeryBuilder.andWhere('stock.size IN (:...sizes)', {
+      queryBuilder.andWhere('stock.size IN (:...sizes)', {
         sizes: [...query.productSize],
       });
     }
 
     // If just one query size
     if (query.productSize && typeof query.productSize === 'string') {
-      queeryBuilder.andWhere('stock.size = :size', { size: query.productSize });
+      queryBuilder.andWhere('stock.size = :size', { size: query.productSize });
     }
 
-    queeryBuilder.andWhere('stock.stock > :minStock', { minStock: 0 });
+    // For stock more than 1
+    queryBuilder.andWhere('stock.stock > :minStock', { minStock: 0 });
 
-    //Query for price
+    // Query for price
     if (query.price) {
       // Memisahkan string berdasarkan karakter '-'
       let parts = query.price.split('-');
@@ -94,7 +95,7 @@ export class ProductService {
       // Mengambil nilai sesudah '-' (bagian kedua)
       let maxPrice = parts[1];
 
-      queeryBuilder.andWhere(
+      queryBuilder.andWhere(
         `
         (CASE 
            WHEN product.discountByPercent IS NULL 
@@ -108,14 +109,14 @@ export class ProductService {
 
     // Sort query
     if (query.sort === Sort.POPULARITY) {
-      queeryBuilder.orderBy('product.sold', 'DESC');
+      queryBuilder.orderBy('product.sold', 'DESC');
     } else if (query.sort === Sort.NEWEST) {
-      queeryBuilder.orderBy('product.releaseDate', 'DESC');
+      queryBuilder.orderBy('product.releaseDate', 'DESC');
     } else if (query.sort === Sort.LATEST) {
-      queeryBuilder.orderBy('product.releaseDate', 'ASC');
+      queryBuilder.orderBy('product.releaseDate', 'ASC');
     }
 
-    const [products, totalData] = await queeryBuilder
+    const [products, totalData] = await queryBuilder
       .take(limit)
       .skip(offset)
       .getManyAndCount();
@@ -166,7 +167,8 @@ export class ProductService {
       .leftJoinAndSelect('product.productImage', 'productImage')
       .andWhere('productImage.imageIndex = :imgIndex', {
         imgIndex: 1,
-      });
+      })
+      .andWhere('stock.stock > :minStock', { minStock: 0 });
 
     if (category === CategoryForDisplay['NEW-ARRIVAL']) {
       queryBuilders.orderBy('product.releaseDate', 'DESC');
