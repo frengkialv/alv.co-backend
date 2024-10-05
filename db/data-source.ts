@@ -11,6 +11,7 @@ export const dataSourceOptions: DataSourceOptions = {
   entities: ['dist/src/modules/**/*.entity.js'], // Path to entity
   migrations: ['dist/db/migrations/*.js'], // Path to migration
   synchronize: false,
+  schema: 'public', // Pastikan schema public dipilih
 };
 
 const dataSource = new DataSource(dataSourceOptions);
