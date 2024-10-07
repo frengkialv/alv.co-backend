@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpCode,
+  Param,
   Post,
   UseFilters,
   UseGuards,
@@ -33,5 +34,13 @@ export class BrandController {
     const getAllBrand = await this.brandService.getAllBrand();
 
     return new BaseDto('Successfully get all Brand', getAllBrand);
+  }
+
+  @Get('/name/:name')
+  @HttpCode(200)
+  async findProductByName(@Param('name') name: string) {
+    const brand = await this.brandService.getOneByName(name);
+
+    return new BaseDto('Successfully get brand by name', brand);
   }
 }

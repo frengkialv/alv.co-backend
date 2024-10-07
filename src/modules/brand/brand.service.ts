@@ -31,8 +31,22 @@ export class BrandService {
   }
 
   async getAllBrand() {
-    const brands = await this.brandRepository.find();
+    const brands = await this.brandRepository.find({
+      order: {
+        name: 'ASC',
+      },
+    });
 
     return brands;
+  }
+
+  async getOneByName(name: string) {
+    const brand = await this.brandRepository.findOne({
+      where: {
+        name: name,
+      },
+    });
+
+    return brand;
   }
 }
