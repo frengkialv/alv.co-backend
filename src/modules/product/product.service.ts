@@ -5,12 +5,16 @@ import { Repository } from 'typeorm';
 import { CategoryForDisplay, CreateProductDtoIn } from './dto/product.dto';
 import { PaginationDtoIn, Sort } from 'src/common/dto/basePagination.dto';
 import { PaginationService } from 'src/common/services/pagination.service';
+import { BrandEntity } from '../brand/entity/brand.entity';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectRepository(ProductEntity)
     private productRepository: Repository<ProductEntity>,
+
+    @InjectRepository(BrandEntity)
+    private brandRepository: Repository<BrandEntity>,
   ) {}
 
   async findProduct(query: PaginationDtoIn) {
@@ -182,6 +186,35 @@ export class ProductService {
     const products = await queryBuilders.take(totalData).getMany();
 
     return products;
+  }
+
+  async getProductAndBrandBySearchQuery(query: string) {
+    const brands = await this.brandRepository
+      .createQueryBuilder('brand')
+      .where('brand.name LIKE :name', { name: `%${query}%` }) // Mencari nama yang mengandung kata di dalam query
+      .orderBy('brand.name', 'ASC')
+      .take(5)
+      .getMany();
+
+    const products = await this.productRepository
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.stock', 'stock')
+      .leftJoinAndSelect('product.brand', 'brand')
+      .leftJoinAndSelect('product.categoryProduct', 'categoryProduct')
+      .leftJoinAndSelect('product.productImage', 'productImage')
+      .andWhere('productImage.imageIndex = :imgIndex', {
+        imgIndex: 1,
+      })
+      .andWhere('stock.stock > :minStock', { minStock: 0 })
+      .andWhere('product.name LIKE :name', { name: `%${query}%` }) // Mencari nama yang mengandung kata di dalam query
+      .orderBy('product.name', 'ASC')
+      .take(5)
+      .getMany();
+
+    return {
+      brands,
+      products,
+    };
   }
 
   async getOneByName(name: string) {

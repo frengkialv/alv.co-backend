@@ -59,6 +59,18 @@ export class ProductController {
     return new BaseDto('Successfully get product for display', products);
   }
 
+  @Get('/search')
+  @HttpCode(200)
+  async findProductAndBrandBySearchQuery(@Query('q') q: string) {
+    const productsAndBrand =
+      await this.productService.getProductAndBrandBySearchQuery(q);
+
+    return new BaseDto(
+      'Successfully get product and brand by query',
+      productsAndBrand,
+    );
+  }
+
   @Post()
   @UseGuards(AuthGuard)
   @HttpCode(201)
