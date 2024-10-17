@@ -148,7 +148,7 @@ export class CartService {
       .andWhere('CAST(cart.color AS text) = CAST(stock.color AS text)')
       .andWhere('CAST(cart.size AS text) = CAST(stock.size AS text)')
       .andWhere('cart.quantity <= stock.stock')
-      .orderBy('cart.createdAt', 'ASC')
+      .orderBy('cart.createdAt', 'DESC')
       .getMany();
 
     return carts;
