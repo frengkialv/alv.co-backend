@@ -15,7 +15,7 @@ export class ProductImageEntity extends CommonEntity {
 
   @Column({
     name: 'imgSrc',
-    type: 'varchar',
+    type: 'text',
     nullable: false,
   })
   imgSrc: string;
