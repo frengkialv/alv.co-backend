@@ -1,5 +1,5 @@
 import { UploadedFile } from '@nestjs/common';
-import { IsNotEmpty, IsNumber, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsUUID } from 'class-validator';
 
 export class CreateProductImageDtoIn {
   @IsNotEmpty()
@@ -8,4 +8,8 @@ export class CreateProductImageDtoIn {
 
   @IsNotEmpty()
   imageIndex: number | string;
+
+  @IsString()
+  @IsNotEmpty()
+  fileName: string;
 }

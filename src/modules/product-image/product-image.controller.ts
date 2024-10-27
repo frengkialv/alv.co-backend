@@ -34,6 +34,7 @@ export class ProductImageController {
       await this.productImageService.createProductImage(
         base64String,
         payload.productId,
+        payload.fileName,
         Number(payload.imageIndex),
       );
 
