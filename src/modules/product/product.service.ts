@@ -226,6 +226,7 @@ export class ProductService {
       .leftJoinAndSelect('product.productSold', 'productSold')
       .where('product.name = :productName', { productName: name })
       .andWhere('stock.stock > :minStock', { minStock: 0 })
+      .orderBy('productImage.imageIndex', 'ASC')
       .getOne();
 
     return products;
